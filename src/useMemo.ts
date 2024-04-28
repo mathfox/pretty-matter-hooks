@@ -24,11 +24,3 @@ export function useMemo<C extends Callback = Callback, A = InferMemoArgs<C>>(
 
 	return storage.value as A;
 }
-
-const fun = useMemo(() => {
-	return "kek";
-}, []);
-
-const [a, b, c] = useMemo(() => {
-	return $tuple(2, 4, "kek");
-}, []);
