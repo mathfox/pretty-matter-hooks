@@ -1,6 +1,6 @@
 {
 	"name": "@rbxts/pretty-matter-hooks",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "",
 	"main": "out/init.lua",
 	"scripts": {
@@ -8,13 +8,24 @@
 		"watch": "rbxtsc -w",
 		"prepublishOnly": "npm run build"
 	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mathfox/pretty-matter-hooks.git"
+	},
 	"keywords": [
 		"matter",
 		"matter-hooks",
 		"hooks"
 	],
-	"author": "Ivan Leontev",
+	"author": {
+		"name": "Ivan Leontev",
+		"url": "https://github.com/mathfox"
+	},
 	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/mathfox/pretty-matter-hooks/issues"
+	},
+	"homepage": "https://github.com/mathfox/pretty-matter-hooks#readme",
 	"types": "out/index.d.ts",
 	"files": [
 		"out",
