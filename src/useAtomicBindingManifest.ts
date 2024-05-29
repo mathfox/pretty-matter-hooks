@@ -17,9 +17,9 @@ function cleanup(storage: Storage) {
 }
 
 export function useAtomicBindingManifest<R extends Instance = Instance, M extends Manifest<R> = Manifest<R>>(
-	discriminator: unknown,
 	root: R,
 	manifest: M,
+    discriminator?: unknown,
 ) {
 	const storage = useHookState(discriminator, cleanup) as Storage;
 
