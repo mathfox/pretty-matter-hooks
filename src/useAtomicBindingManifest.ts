@@ -19,7 +19,11 @@ function cleanup(storage: Storage) {
 export function useAtomicBindingManifest<
 	R extends AnyManifestRoot = AnyManifestRoot,
 	M extends Manifest<R> = Manifest<R>,
->(root: R, manifest: M, discriminator?: unknown) {
+>(
+	root: R,
+	manifest: M,
+	discriminator?: unknown,
+): LuaTuple<[false, undefined]> | LuaTuple<[true, ManifestInstances<R, M>]> {
 	const storage = useHookState(discriminator, cleanup) as Storage<R, M>;
 
 	if (!storage.value) {
@@ -46,7 +50,9 @@ export function useAtomicBindingManifest<
 
 	const instances = storage.value?.instances;
 
-	return $tuple(instances !== undefined, instances) as
-		| LuaTuple<[false, undefined]>
-		| LuaTuple<[true, ManifestInstances<R, M>]>;
+	if (instances !== undefined) {
+		return $tuple(true as const, instances);
+	}
+
+	return $tuple(false as const, undefined);
 }
