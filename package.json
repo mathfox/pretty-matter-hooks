@@ -1,7 +1,7 @@
 {
 	"name": "@rbxts/pretty-matter-hooks",
-	"version": "0.2.0",
-	"description": "",
+	"version": "0.2.1",
+	"description": "A set of hooks to be used in pair with Matter ECS.",
 	"main": "out/init.lua",
 	"scripts": {
 		"build": "rbxtsc",
@@ -35,14 +35,14 @@
 		"access": "public"
 	},
 	"devDependencies": {
-		"@rbxts/atomic-binding": "^0.1.5",
+		"@rbxts/atomic-binding": "^0.2.3",
 		"@rbxts/compiler-types": "^2.3.0-types.1",
 		"@rbxts/matter": "^0.8.1",
 		"@rbxts/services": "^1.5.4",
-		"@rbxts/sift": "^0.0.8",
-		"@rbxts/types": "^1.0.772",
-		"@typescript-eslint/eslint-plugin": "^7.7.1",
-		"@typescript-eslint/parser": "^7.7.1",
+		"@rbxts/sift": "^0.0.9",
+		"@rbxts/types": "^1.0.778",
+		"@typescript-eslint/eslint-plugin": "7.11.0",
+		"@typescript-eslint/parser": "7.11.0",
 		"eslint": "^8.57.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-prettier": "^5.1.3",
