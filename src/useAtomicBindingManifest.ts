@@ -1,30 +1,32 @@
 import { AnyManifestRoot, AtomicBinding, Manifest, ManifestInstances } from "@rbxts/atomic-binding";
 import { useHookState } from "@rbxts/matter";
 
-type Storage = {
+type Storage<R extends AnyManifestRoot = AnyManifestRoot, M extends Manifest<R> = Manifest<R>> = {
 	value?: {
-		instances: ManifestInstances<AnyManifestRoot, Manifest<AnyManifestRoot>> | undefined;
-		root: AnyManifestRoot;
-		binding: AtomicBinding<AnyManifestRoot>;
+		instances: ManifestInstances<R, M> | undefined;
+		root: R;
+		binding: AtomicBinding<R, M>;
 	};
 };
 
 function cleanup(storage: Storage) {
-	if (!storage.value) return;
+	const value = storage.value;
+	if (!value) return;
 
-	storage.value.binding.unbindRoot(storage.value.root);
+	value.binding.unbindRoot(value.root);
 }
 
-export function useAtomicBindingManifest<R extends AnyManifestRoot = AnyManifestRoot>(
-	root: R,
-	manifest: Manifest<R>,
-	discriminator?: unknown,
-) {
-	const storage = useHookState(discriminator, cleanup) as Storage;
+export function useAtomicBindingManifest<
+	R extends AnyManifestRoot = AnyManifestRoot,
+	M extends Manifest<R> = Manifest<R>,
+>(root: R, manifest: M, discriminator?: unknown) {
+	const storage = useHookState(discriminator, cleanup) as Storage<R, M>;
 
 	if (!storage.value) {
-		const binding = new AtomicBinding<R>(manifest, (instances) => {
-			value.instances = instances as any;
+		const binding = new AtomicBinding<R, M>(manifest, (instances) => {
+			if (!storage.value) return;
+
+			storage.value.instances = instances as any;
 
 			return () => {
 				if (!storage.value) return;
@@ -35,16 +37,16 @@ export function useAtomicBindingManifest<R extends AnyManifestRoot = AnyManifest
 
 		binding.bindRoot(root);
 
-		const value: NonNullable<Storage["value"]> = {
+		storage.value = {
 			instances: undefined,
-			binding: binding as any,
+			binding,
 			root,
 		};
-
-		storage.value = value;
 	}
 
-	const instances = storage.value.instances;
+	const instances = storage.value?.instances;
 
-	return [instances !== undefined, instances] as [false, undefined] | [true, ManifestInstances<R, Manifest<R>>];
+	return $tuple(instances !== undefined, instances) as
+		| LuaTuple<[false, undefined]>
+		| LuaTuple<[true, ManifestInstances<R, M>]>;
 }

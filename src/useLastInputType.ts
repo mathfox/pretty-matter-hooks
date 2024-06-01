@@ -5,8 +5,8 @@ type Storage = {
 	inputType?: Enum.UserInputType;
 };
 
-export function useLastInputType() {
-	const storage = useHookState() as Storage;
+export function useLastInputType(discriminator?: unknown) {
+	const storage = useHookState(discriminator) as Storage;
 
 	storage.inputType ??= UserInputService.GetLastInputType();
 

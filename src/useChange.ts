@@ -7,7 +7,9 @@ type Storage = {
 
 export function useChange(dependencies: Array<unknown>, discriminator?: unknown) {
 	const storage = useHookState(discriminator) as Storage;
+
 	const previous = storage.dependencies;
 	storage.dependencies = dependencies;
+
 	return !equals(dependencies, previous);
 }
