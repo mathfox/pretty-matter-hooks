@@ -1,6 +1,6 @@
 {
 	"name": "@rbxts/pretty-matter-hooks",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"description": "A set of hooks to be used in pair with Matter ECS.",
 	"main": "out/init.lua",
 	"scripts": {

@@ -3,8 +3,10 @@ import { useHookState } from "@rbxts/matter";
 
 type Storage<R extends AnyManifestRoot = AnyManifestRoot, M extends Manifest<R> = Manifest<R>> = {
 	value?: {
-		instances: ManifestInstances<R, M> | undefined;
-		root: R;
+		info: {
+			instances: ManifestInstances<R, M> | undefined;
+			root: R;
+		};
 		binding: AtomicBinding<R, M>;
 	};
 };
@@ -13,7 +15,7 @@ function cleanup(storage: Storage) {
 	const value = storage.value;
 	if (!value) return;
 
-	value.binding.unbindRoot(value.root);
+	value.binding.unbindRoot(value.info.root);
 }
 
 export function useAtomicBindingManifest<
@@ -27,28 +29,28 @@ export function useAtomicBindingManifest<
 	const storage = useHookState(discriminator, cleanup) as Storage<R, M>;
 
 	if (!storage.value) {
-		const binding = new AtomicBinding<R, M>(manifest, (instances) => {
-			if (!storage.value) return;
+		const info: NonNullable<Storage["value"]>["info"] = {
+			instances: undefined,
+			root,
+		};
 
-			storage.value.instances = instances as any;
+		const binding = new AtomicBinding<R, M>(manifest, (instances) => {
+			info.instances = instances as any;
 
 			return () => {
-				if (!storage.value) return;
-
-				storage.value.instances = undefined;
+				info.instances = undefined;
 			};
 		});
 
 		binding.bindRoot(root);
 
 		storage.value = {
-			instances: undefined,
 			binding,
-			root,
+			info: info as any,
 		};
 	}
 
-	const instances = storage.value?.instances;
+	const instances = storage.value?.info.instances;
 
 	if (instances !== undefined) {
 		return $tuple(true as const, instances);
