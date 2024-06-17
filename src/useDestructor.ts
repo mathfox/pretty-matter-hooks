@@ -33,6 +33,8 @@ export function useDestructor(callback: DtorCallback, dependenciesOrDiscriminato
 		const dependencies = dependenciesOrDiscriminator;
 
 		if (!storage.dtor || !equals(dependencies, storage.dependencies)) {
+            cleanup(storage)
+
 			storage.dtor = callback();
 
 			storage.dependencies = dependencies;
