@@ -10,20 +10,12 @@ type Storage<
 	R extends AnyManifestRoot = AnyManifestRoot,
 	M extends Manifest<R> = Manifest<R>,
 > = {
-	value?: {
-		info: {
-			instances: ManifestInstances<R, M> | undefined;
-			root: R;
-		};
-		binding: AtomicBinding<R, M>;
-	};
+	cleanup?: Callback;
+	instances?: ManifestInstances<R, M> | undefined;
 };
 
 function cleanup(storage: Storage) {
-	const value = storage.value;
-	if (!value) return;
-
-	value.binding.unbindRoot(value.info.root);
+	storage.cleanup?.();
 }
 
 export function useAtomicBindingManifest<
@@ -36,29 +28,25 @@ export function useAtomicBindingManifest<
 ): LuaTuple<[false, undefined]> | LuaTuple<[true, ManifestInstances<R, M>]> {
 	const storage = useHookState(discriminator, cleanup) as Storage<R, M>;
 
-	if (!storage.value) {
-		const info: NonNullable<Storage["value"]>["info"] = {
-			instances: undefined,
-			root,
-		};
-
+	if (!storage.cleanup) {
 		const binding = new AtomicBinding<R, M>(manifest, (instances) => {
-			info.instances = instances as any;
+			storage.instances = instances;
 
 			return () => {
-				info.instances = undefined;
+				storage.instances = undefined;
 			};
 		});
 
 		binding.bindRoot(root);
 
-		storage.value = {
-			binding,
-			info: info as any,
+		storage.cleanup = () => {
+			binding.unbindRoot(root);
+
+			binding.destroy();
 		};
 	}
 
-	const instances = storage.value?.info.instances;
+	const instances = storage?.instances;
 
 	if (instances !== undefined) {
 		return $tuple(true as const, instances);
