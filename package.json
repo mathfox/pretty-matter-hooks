@@ -1,6 +1,6 @@
 {
 	"name": "@rbxts/pretty-matter-hooks",
-	"version": "0.3.5",
+	"version": "0.3.6",
 	"description": "A set of hooks to be used in pair with Matter ECS.",
 	"main": "out/init.lua",
 	"scripts": {
@@ -12,11 +12,7 @@
 		"type": "git",
 		"url": "git+https://github.com/mathfox/pretty-matter-hooks.git"
 	},
-	"keywords": [
-		"matter",
-		"matter-hooks",
-		"hooks"
-	],
+	"keywords": ["matter", "matter-hooks", "hooks"],
 	"author": {
 		"name": "Ivan Leontev",
 		"url": "https://github.com/mathfox"
@@ -27,10 +23,7 @@
 	},
 	"homepage": "https://github.com/mathfox/pretty-matter-hooks#readme",
 	"types": "out/index.d.ts",
-	"files": [
-		"out",
-		"!**/*.tsbuildinfo"
-	],
+	"files": ["out", "!**/*.tsbuildinfo"],
 	"publishConfig": {
 		"access": "public"
 	},
