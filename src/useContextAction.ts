@@ -1,12 +1,15 @@
 import { useHookState } from "@rbxts/matter";
 import { ContextActionService } from "@rbxts/services";
 
-export type ContextActionInput = Enum.UserInputType | Enum.KeyCode | Enum.PlayerActions;
+export type ContextActionInput =
+	| Enum.UserInputType
+	| Enum.KeyCode
+	| Enum.PlayerActions;
 
 export type ContextActionCallback = (
 	inputState: Enum.UserInputState,
 	inputObject: InputObject,
-) => Enum.ContextActionResult | void;
+) => Enum.ContextActionResult | undefined;
 
 type Storage = {
 	value?: {

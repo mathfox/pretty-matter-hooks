@@ -5,7 +5,10 @@ type Storage = {
 	dependencies: Array<unknown>;
 };
 
-export function useChange(dependencies: Array<unknown>, discriminator?: unknown) {
+export function useChange(
+	dependencies: Array<unknown>,
+	discriminator?: unknown,
+) {
 	const storage = useHookState(discriminator) as Storage;
 
 	const previous = storage.dependencies;

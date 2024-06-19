@@ -13,7 +13,9 @@ export type AsyncState<T> =
 			value: T;
 	  }
 	| {
-			status: PromiseConstructor["Status"]["Cancelled"] | PromiseConstructor["Status"]["Rejected"];
+			status:
+				| PromiseConstructor["Status"]["Cancelled"]
+				| PromiseConstructor["Status"]["Rejected"];
 			message: unknown;
 			value?: undefined;
 	  };
@@ -24,7 +26,9 @@ type AnyAsyncState<T> = {
 	value?: T;
 };
 
-export type AsyncCallback<T, U extends Array<unknown>> = (...args: U) => Promise<T>;
+export type AsyncCallback<T, U extends Array<unknown>> = (
+	...args: U
+) => Promise<T>;
 
 type Storage<T> = {
 	dependencies: Array<unknown>;
@@ -70,5 +74,9 @@ export function useAsync<T>(
 		storage.currentPromise = promise;
 	}
 
-	return $tuple(storage.state.value, storage.state.status, storage.state.message);
+	return $tuple(
+		storage.state.value,
+		storage.state.status,
+		storage.state.message,
+	);
 }

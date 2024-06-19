@@ -1,7 +1,15 @@
-import { AnyManifestRoot, AtomicBinding, Manifest, ManifestInstances } from "@rbxts/atomic-binding";
+import {
+	type AnyManifestRoot,
+	AtomicBinding,
+	type Manifest,
+	type ManifestInstances,
+} from "@rbxts/atomic-binding";
 import { useHookState } from "@rbxts/matter";
 
-type Storage<R extends AnyManifestRoot = AnyManifestRoot, M extends Manifest<R> = Manifest<R>> = {
+type Storage<
+	R extends AnyManifestRoot = AnyManifestRoot,
+	M extends Manifest<R> = Manifest<R>,
+> = {
 	value?: {
 		info: {
 			instances: ManifestInstances<R, M> | undefined;

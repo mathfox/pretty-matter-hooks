@@ -1,7 +1,11 @@
 import { useHookState } from "@rbxts/matter";
 import { equals } from "@rbxts/sift/out/Array";
 
-type InferMemoArgs<T> = T extends () => infer A ? (A extends Array<defined> ? LuaTuple<A> : A) : never;
+type InferMemoArgs<T> = T extends () => infer A
+	? A extends Array<defined>
+		? LuaTuple<A>
+		: A
+	: never;
 
 type Storage<T> = {
 	dependencies?: Array<unknown>;
@@ -15,7 +19,10 @@ export function useMemo<C extends Callback = Callback, A = InferMemoArgs<C>>(
 ): A {
 	const storage = useHookState(discriminator) as Storage<A>;
 
-	if (storage.value === undefined || !equals(dependencies, storage.dependencies)) {
+	if (
+		storage.value === undefined ||
+		!equals(dependencies, storage.dependencies)
+	) {
 		storage.dependencies = dependencies;
 		storage.value = [callback()];
 	}
