@@ -1,5 +1,5 @@
 import { useHookState } from "@rbxts/matter";
-import { equals } from "@rbxts/sift/out/Array";
+import { equals } from "@rbxts/phantom/src/Array";
 
 type Storage = {
 	dependencies: Array<unknown>;

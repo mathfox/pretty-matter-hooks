@@ -1,5 +1,5 @@
 import { useHookState } from "@rbxts/matter";
-import { equals, isArray } from "@rbxts/sift/out/Array";
+import { equals } from "@rbxts/phantom/src/Array";
 
 type Dtor = Callback;
 type DtorCallback = () => Dtor;

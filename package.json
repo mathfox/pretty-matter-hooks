@@ -1,6 +1,6 @@
 {
 	"name": "@rbxts/pretty-matter-hooks",
-	"version": "0.3.6",
+	"version": "0.3.7",
 	"description": "A set of hooks to be used in pair with Matter ECS.",
 	"main": "out/init.lua",
 	"scripts": {
@@ -32,8 +32,8 @@
 		"@rbxts/atomic-binding": "0.2.4",
 		"@rbxts/compiler-types": "^2.3.0-types.1",
 		"@rbxts/matter": "^0.8.1",
+		"@rbxts/phantom": "^0.0.2",
 		"@rbxts/services": "^1.5.4",
-		"@rbxts/sift": "^0.0.9",
 		"@rbxts/types": "^1.0.778",
 		"roblox-ts": "^2.3.0",
 		"typescript": "^5.4.5"
