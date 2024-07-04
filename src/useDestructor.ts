@@ -13,7 +13,7 @@ type StorageWithDependencies = Storage & {
 };
 
 function cleanup(storage: Storage) {
-    storage.dtor?.()
+	storage.dtor?.();
 }
 
 /**
