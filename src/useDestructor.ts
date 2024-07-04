@@ -2,7 +2,7 @@ import { useHookState } from "@rbxts/matter";
 import { equals } from "@rbxts/phantom/src/Array";
 
 type Dtor = Callback;
-type DtorCallback = () => Dtor;
+type DtorCallback = () => Dtor | undefined;
 
 type Storage = {
 	dtor?: Dtor;
@@ -13,7 +13,7 @@ type StorageWithDependencies = Storage & {
 };
 
 function cleanup(storage: Storage) {
-	if (storage.dtor) storage.dtor();
+    storage.dtor?.()
 }
 
 /**
