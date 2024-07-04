@@ -1,12 +1,10 @@
 {
 	"name": "@rbxts/pretty-matter-hooks",
-	"version": "0.3.9",
+	"version": "0.3.10",
 	"description": "A set of hooks to be used in pair with Matter ECS.",
 	"main": "out/init.lua",
 	"scripts": {
-		"build": "rbxtsc",
-		"watch": "rbxtsc -w",
-		"prepublishOnly": "npm run build",
+		"prepublishOnly": "rbxtsc",
 		"fmt": "bunx @biomejs/biome check --write"
 	},
 	"repository": {
@@ -29,15 +27,15 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@rbxts/atomic-binding": "0.2.9",
+		"@rbxts/atomic-binding": "*",
 		"@rbxts/compiler-types": "^2.3.0-types.1",
-		"@rbxts/matter": "^0.8.1",
+		"@rbxts/matter": "*",
 		"@rbxts/phantom": "^0.0.4",
-		"@rbxts/services": "^1.5.4",
-		"@rbxts/types": "1.0.787"
+		"@rbxts/services": "*",
+		"@rbxts/types": "*"
 	},
 	"devDependencies": {
 		"roblox-ts": "^2.3.0",
-		"typescript": "5.5.2"
+		"typescript": "*"
 	}
 }
