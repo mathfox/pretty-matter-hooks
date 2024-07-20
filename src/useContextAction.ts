@@ -1,5 +1,5 @@
 import { useHookState } from "@rbxts/matter";
-import { ContextActionService } from "@rbxts/services";
+import { ContextActionService, HttpService } from "@rbxts/services";
 
 export type ContextActionInput =
 	| Enum.UserInputType
@@ -9,7 +9,14 @@ export type ContextActionInput =
 export type ContextActionCallback = (
 	inputState: Enum.UserInputState,
 	inputObject: InputObject,
+	actionName: string,
 ) => Enum.ContextActionResult | undefined;
+
+export interface ContextActionOptions {
+	inputTypes: Array<ContextActionInput>;
+	priority?: number;
+	actionName?: string;
+}
 
 type Storage = {
 	value?: {
@@ -25,12 +32,12 @@ function cleanup(storage: Storage) {
 }
 
 export function useContextAction(
-	actionName: string,
 	callback: ContextActionCallback,
-	options: {
-		inputTypes: Array<ContextActionInput>;
-		priority?: Enum.ContextActionPriority;
-	},
+	{
+		inputTypes,
+		actionName = HttpService.GenerateGUID(false),
+		priority = Enum.ContextActionPriority.Medium.Value,
+	}: ContextActionOptions,
 ) {
 	const storage = useHookState(actionName, cleanup) as Storage;
 
@@ -44,10 +51,11 @@ export function useContextAction(
 
 		ContextActionService.BindActionAtPriority(
 			actionName,
-			(_, ...args) => value.callback(...args),
+			(name, inputState, inputObject) =>
+				value.callback(inputState, inputObject, name),
 			false,
-			options.priority?.Value || Enum.ContextActionPriority.Medium.Value,
-			...options.inputTypes,
+			priority,
+			...inputTypes,
 		);
 	}
 }
