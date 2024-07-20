@@ -40,7 +40,7 @@ export function useContextAction(
 	}: ContextActionOptions,
 	discriminator?: unknown,
 ) {
-	const storage = useHookState(discriminator, cleanup) as Storage;
+	const storage = useHookState(actionName || discriminator, cleanup) as Storage;
 
 	if (!storage.value) {
 		const resultActionName = actionName || HttpService.GenerateGUID(false);
