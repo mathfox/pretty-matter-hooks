@@ -35,22 +35,25 @@ export function useContextAction(
 	callback: ContextActionCallback,
 	{
 		inputTypes,
-		actionName = HttpService.GenerateGUID(false),
+		actionName,
 		priority = Enum.ContextActionPriority.Medium.Value,
 	}: ContextActionOptions,
+	discriminator?: unknown,
 ) {
-	const storage = useHookState(actionName, cleanup) as Storage;
+	const storage = useHookState(discriminator, cleanup) as Storage;
 
 	if (!storage.value) {
+		const resultActionName = actionName || HttpService.GenerateGUID(false);
+
 		const value: NonNullable<Storage["value"]> = {
-			actionName,
+			actionName: resultActionName,
 			callback,
 		};
 
 		storage.value = value;
 
 		ContextActionService.BindActionAtPriority(
-			actionName,
+			resultActionName,
 			(name, inputState, inputObject) =>
 				value.callback(inputState, inputObject, name),
 			false,
