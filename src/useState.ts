@@ -6,16 +6,24 @@ type Storage<T> = {
 	setValue: (newValue: T) => void;
 };
 
+export type UseStateReturn<T> = LuaTuple<
+	[value: T, setValue: (newValue: T) => void]
+>;
+
+export function useState<T>(defaultValue: T): UseStateReturn<T>;
+
+export function useState<T>(getDefaultValue: () => T): UseStateReturn<T>;
+
 export function useState<T>(
-	defaultValue: T | (() => T),
+	defaultValueOrGetter: T | (() => T),
 	discriminator?: unknown,
 ) {
 	const storage = useHookState(discriminator) as Storage<T>;
 
 	if (useChange([storage])) {
-		storage.value = typeIs(defaultValue, "function")
-			? defaultValue()
-			: defaultValue;
+		storage.value = typeIs(defaultValueOrGetter, "function")
+			? defaultValueOrGetter()
+			: defaultValueOrGetter;
 		storage.setValue = (newValue) => {
 			storage.value = newValue;
 		};
