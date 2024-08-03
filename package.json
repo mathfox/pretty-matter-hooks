@@ -32,8 +32,8 @@
 		"@rbxts/compiler-types": "^2.3.0-types.1",
 		"@rbxts/matter": "^0.8.3",
 		"@rbxts/phantom": "^0.0.4",
-		"@rbxts/services": "*",
-		"@rbxts/types": "*"
+		"@rbxts/services": "^1.5.4",
+		"@rbxts/types": "^1.0.794"
 	},
 	"devDependencies": {
 		"roblox-ts": "^2.3.0",
