@@ -30,7 +30,7 @@
 		"@rbxts/atomic-binding": "^0.5.2",
 		"@rbxts/charm": "^0.3.1",
 		"@rbxts/compiler-types": "^2.3.0-types.1",
-		"@rbxts/matter": "*",
+		"@rbxts/matter": "^0.8.3",
 		"@rbxts/phantom": "^0.0.4",
 		"@rbxts/services": "*",
 		"@rbxts/types": "*"
