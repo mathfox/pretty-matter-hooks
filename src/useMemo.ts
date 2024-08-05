@@ -1,23 +1,29 @@
 import { useHookState } from "@rbxts/matter";
 import { equals } from "@rbxts/phantom/src/Array";
 
-type InferMemoArgs<T> = T extends () => infer A
-	? A extends Array<defined>
-		? LuaTuple<A>
-		: A
-	: never;
-
 type Storage<T> = {
-	dependencies?: Array<unknown>;
+	dependencies?: ReadonlyArray<unknown>;
 	value?: [T];
 };
 
-export function useMemo<C extends Callback = Callback, A = InferMemoArgs<C>>(
-	callback: C,
-	dependencies: Array<unknown>,
+export function useMemo<const T>(
+	callback: () => T,
+	dependencies: ReadonlyArray<unknown>,
 	discriminator?: unknown,
-): A {
-	const storage = useHookState(discriminator) as Storage<A>;
+): T;
+
+export function useMemo<const T extends Array<unknown>>(
+	callback: () => LuaTuple<T>,
+	dependencies: ReadonlyArray<unknown>,
+	discriminator?: unknown,
+): LuaTuple<T>;
+
+export function useMemo(
+	callback: Callback,
+	dependencies: ReadonlyArray<unknown>,
+	discriminator?: unknown,
+) {
+	const storage = useHookState(discriminator) as Storage<unknown>;
 
 	if (
 		storage.value === undefined ||
@@ -27,7 +33,5 @@ export function useMemo<C extends Callback = Callback, A = InferMemoArgs<C>>(
 		storage.value = [callback()];
 	}
 
-	if (storage.value.size() === 1) return storage.value[0];
-
-	return storage.value as A;
+	return $tuple(...storage.value);
 }
