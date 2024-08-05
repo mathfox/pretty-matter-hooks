@@ -1,17 +1,20 @@
 {
 	"name": "@rbxts/pretty-matter-hooks",
-	"version": "0.5.2",
+	"version": "0.6.0",
 	"description": "A set of hooks to be used in pair with Matter ECS.",
 	"main": "out/init.lua",
+	"types": "out/index.d.ts",
+	"files": ["out"],
 	"scripts": {
-		"prepublishOnly": "rbxtsc",
-		"fmt": "bunx @biomejs/biome check --write"
+		"build": "rbxtsc",
+		"prepublishOnly": "bun run build",
+		"check": "bunx @biomejs/biome check --write"
 	},
+	"keywords": ["roblox", "roblox-ts", "matter", "matter-hooks", "hooks"],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/mathfox/pretty-matter-hooks.git"
 	},
-	"keywords": ["matter", "matter-hooks", "hooks"],
 	"author": {
 		"name": "Ivan Leontev",
 		"url": "https://github.com/mathfox"
@@ -21,22 +24,21 @@
 		"url": "https://github.com/mathfox/pretty-matter-hooks/issues"
 	},
 	"homepage": "https://github.com/mathfox/pretty-matter-hooks#readme",
-	"types": "out/index.d.ts",
-	"files": ["out", "!**/*.tsbuildinfo"],
 	"publishConfig": {
 		"access": "public"
 	},
 	"dependencies": {
 		"@rbxts/atomic-binding": "^0.5.2",
-		"@rbxts/charm": "^0.3.1",
+		"@rbxts/charm": "^0.5.2",
 		"@rbxts/compiler-types": "^2.3.0-types.1",
+		"@rbxts/light-promise": "0.0.2",
 		"@rbxts/matter": "^0.8.3",
-		"@rbxts/phantom": "^0.0.4",
+		"@rbxts/phantom": "^0.0.5",
 		"@rbxts/services": "^1.5.4",
 		"@rbxts/types": "^1.0.794"
 	},
 	"devDependencies": {
-		"roblox-ts": "^2.3.0",
+		"roblox-ts": "^2.3.0-dev-576ad98",
 		"typescript": "^5.6.0-dev.20240803"
 	}
 }
