@@ -1,82 +1,90 @@
 import { useHookState } from "@rbxts/matter";
 import { equals } from "@rbxts/phantom/src/Array";
 
-export type AsyncState<T> =
-	| {
-			status: PromiseConstructor["Status"]["Started"];
-			message?: undefined;
-			value?: undefined;
-	  }
-	| {
-			status: PromiseConstructor["Status"]["Resolved"];
-			message?: undefined;
-			value: T;
-	  }
-	| {
-			status:
-				| PromiseConstructor["Status"]["Cancelled"]
-				| PromiseConstructor["Status"]["Rejected"];
-			message: unknown;
-			value?: undefined;
-	  };
-
-type AnyAsyncState<T> = {
-	status: Promise.Status;
-	message?: unknown;
-	value?: T;
-};
-
-export type AsyncCallback<T, U extends Array<unknown>> = (
-	...args: U
-) => Promise<T>;
-
 type Storage<T> = {
-	dependencies: Array<unknown>;
-	currentPromise?: Promise<T>;
-	state: AnyAsyncState<T>;
+	dependencies: ReadonlyArray<unknown>;
+	promise?: Promise<T> | LightPromise<T>;
+	status: Promise.Status | LightPromise.Status;
+	settleValue?: T | unknown;
 };
 
 function cleanup(storage: Storage<unknown>) {
-	storage.currentPromise?.cancel();
+	if (LightPromise.is(storage.promise)) {
+		storage.promise.cancel();
+	} else {
+		storage.promise?.cancel();
+	}
 }
 
-type AsyncStateTuple<T extends AsyncState<unknown>> = LuaTuple<
-	[result: T["value"], status: T["status"], message: T["message"]]
+export function useAsync<const T>(
+	callback: () => Promise<T>,
+	dependencies: ReadonlyArray<unknown>,
+	discriminator?: unknown,
+): LuaTuple<
+	| [status: PromiseConstructor["Status"]["Started"], value: undefined]
+	| [status: PromiseConstructor["Status"]["Resolved"], value: T]
+	| [status: PromiseConstructor["Status"]["Rejected"], errorValue: unknown]
+	| [status: PromiseConstructor["Status"]["Cancelled"], undefined]
 >;
 
-export function useAsync<T>(
-	callback: () => Promise<T>,
-	dependencies: Array<unknown>,
+export function useAsync<const T>(
+	callback: () => LightPromise<T>,
+	dependencies: ReadonlyArray<unknown>,
 	discriminator?: unknown,
-): AsyncStateTuple<AsyncState<T>> {
-	const storage = useHookState(discriminator, cleanup) as Storage<T>;
+): LuaTuple<
+	| [status: LightPromiseConstructor["Status"]["Started"], value: undefined]
+	| [status: LightPromiseConstructor["Status"]["Resolved"], value: T]
+	| [status: LightPromiseConstructor["Status"]["Rejected"], errorValue: unknown]
+	| [status: LightPromiseConstructor["Status"]["Cancelled"], undefined]
+>;
+
+/**
+ * The type of `value` will be `undefined` in case if the promise has not been resolved.
+ */
+export function useAsync(
+	callback: (() => LightPromise<unknown>) | (() => Promise<unknown>),
+	dependencies: ReadonlyArray<unknown>,
+	discriminator?: unknown,
+) {
+	const storage = useHookState(discriminator, cleanup) as Storage<unknown>;
 
 	if (!equals(dependencies, storage.dependencies)) {
 		cleanup(storage);
 
 		storage.dependencies = dependencies;
 
-		storage.state = {
-			status: Promise.Status.Started,
-		};
-
 		const promise = callback();
 
-		promise.then(
-			(value) => {
-				storage.state = { status: promise.getStatus(), value };
-			},
-			(message) => {
-				storage.state = { status: promise.getStatus(), message };
-			},
-		);
+		storage.promise = promise;
 
-		storage.currentPromise = promise;
+		if (LightPromise.is(promise)) {
+			promise.then(
+				(value) => {
+					storage.settleValue = value;
+				},
+				(errorValue) => {
+					storage.settleValue = errorValue;
+				},
+			);
+
+			promise.finally((status) => {
+				storage.status = status;
+			});
+		} else {
+			promise.then(
+				(value) => {
+					storage.settleValue = value;
+				},
+				(errorValue) => {
+					storage.settleValue = errorValue;
+				},
+			);
+
+			promise.finally(() => {
+				storage.status = promise.getStatus();
+			});
+		}
 	}
 
-	return $tuple(
-		storage.state.value,
-		storage.state.status,
-		storage.state.message,
-	);
+	return $tuple(storage.status, storage.settleValue);
 }
