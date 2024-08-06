@@ -29,7 +29,7 @@ export function useDestructor(
  */
 export function useDestructor(
 	callback: DtorCallback,
-	dependencies: Array<unknown>,
+	dependencies: ReadonlyArray<unknown>,
 	discriminator?: unknown,
 ): void;
 
