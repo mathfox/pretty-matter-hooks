@@ -21,15 +21,15 @@ export function useState<const T>(
 ): UseStateReturn<T>;
 
 export function useState<const T>(
-	defaultValueOrGetter: T | (() => T),
+	defaultValue: T | (() => T),
 	discriminator?: unknown,
 ) {
 	const storage = useHookState(discriminator) as Storage<T>;
 
 	if (useChange([storage])) {
-		storage.value = typeIs(defaultValueOrGetter, "function")
-			? defaultValueOrGetter()
-			: defaultValueOrGetter;
+		storage.value = typeIs(defaultValue, "function")
+			? defaultValue()
+			: defaultValue;
 		storage.setValue = (newValue) => {
 			storage.value = newValue;
 		};
