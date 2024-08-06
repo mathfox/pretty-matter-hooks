@@ -1,17 +1,19 @@
 import {
-	type AnyManifestRoot,
-	AtomicBinding,
+	createAtomicBinding,
+	isManifest,
+	type AtomicBinding,
+	type BoundFunction,
+	type DEFAULT_DEPTH,
+	type InferManifestInstances,
 	type Manifest,
 	type ManifestInstances,
+	type Paths,
 } from "@rbxts/atomic-binding";
 import { useHookState } from "@rbxts/matter";
 
-type Storage<
-	R extends AnyManifestRoot = AnyManifestRoot,
-	M extends Manifest<R> = Manifest<R>,
-> = {
+type Storage<Root extends Instance = Instance> = {
 	cleanup?: Callback;
-	instances?: ManifestInstances<R, M> | undefined;
+	instances?: ManifestInstances<Root> | undefined;
 };
 
 function cleanup(storage: Storage) {
@@ -19,23 +21,54 @@ function cleanup(storage: Storage) {
 }
 
 export function useAtomicBindingManifest<
-	R extends AnyManifestRoot = AnyManifestRoot,
-	M extends Manifest<R> = Manifest<R>,
+	const Root extends Instance,
+	const Depth extends number = DEFAULT_DEPTH,
+	const Base extends {
+		readonly [Key in string]: Paths<Root, Depth>;
+	} = {
+		readonly [Key in string]: Paths<Root, Depth>;
+	},
 >(
-	root: R,
+	root: Root,
+	base: Base,
+):
+	| LuaTuple<[false, undefined]>
+	| LuaTuple<[true, ManifestInstances<Root, Depth, Base>]>;
+
+export function useAtomicBindingManifest<
+	const Root extends Instance,
+	const M extends Manifest<Root>,
+>(
+	root: Root,
 	manifest: M,
+): LuaTuple<[false, undefined]> | LuaTuple<[true, InferManifestInstances<M>]>;
+
+/**
+ * The `binding` argument should be memoized in order to work correctly.
+ */
+export function useAtomicBindingManifest(
+	root: Instance,
+	value: unknown,
 	discriminator?: unknown,
-): LuaTuple<[false, undefined]> | LuaTuple<[true, ManifestInstances<R, M>]> {
-	const storage = useHookState(discriminator, cleanup) as Storage<R, M>;
+) {
+	const storage = useHookState(discriminator, cleanup);
 
 	if (!storage.cleanup) {
-		const binding = new AtomicBinding<R, M>(manifest, (instances) => {
+		let binding: AtomicBinding;
+
+		const boundFn: BoundFunction<Instance> = (instances) => {
 			storage.instances = instances;
 
 			return () => {
 				storage.instances = undefined;
 			};
-		});
+		};
+
+		if (isManifest(value)) {
+			binding = createAtomicBinding(value, boundFn);
+		} else {
+			binding = createAtomicBinding()(value as Record<string, never>, boundFn);
+		}
 
 		binding.bindRoot(root);
 
@@ -46,8 +79,7 @@ export function useAtomicBindingManifest<
 		};
 	}
 
-	const instances = storage?.instances;
-
+	const instances = storage.instances;
 	if (instances !== undefined) {
 		return $tuple(true as const, instances);
 	}
