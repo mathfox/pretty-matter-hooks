@@ -39,7 +39,7 @@ export function useContextAction(
 		priority = Enum.ContextActionPriority.Medium.Value,
 	}: ContextActionOptions,
 	discriminator?: unknown,
-) {
+): void {
 	const storage = useHookState(actionName || discriminator, cleanup) as Storage;
 
 	if (!storage.value) {
