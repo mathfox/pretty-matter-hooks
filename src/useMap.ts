@@ -9,7 +9,7 @@ type Storage<T> = {
 /**
  * The `key` argument serves as discriminator for `useHookState`.
  */
-export function useMap<T = unknown>(key: unknown, defaultValue: T) {
+export function useMap<T>(key: unknown, defaultValue: T) {
 	const storage = useHookState(key) as Storage<T>;
 
 	storage.value ??= {
