@@ -11,12 +11,12 @@ export type UseStateReturn<T> = LuaTuple<
 >;
 
 export function useState<T>(
-	defaultValue: T,
+	getDefaultValue: () => T,
 	discriminator?: unknown,
 ): UseStateReturn<T>;
 
 export function useState<T>(
-	getDefaultValue: () => T,
+	defaultValue: T,
 	discriminator?: unknown,
 ): UseStateReturn<T>;
 
