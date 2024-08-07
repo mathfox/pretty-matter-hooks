@@ -10,17 +10,17 @@ export type UseStateReturn<T> = LuaTuple<
 	[value: T, setValue: (newValue: T) => void]
 >;
 
-export function useState<const T>(
+export function useState<T>(
 	defaultValue: T,
 	discriminator?: unknown,
 ): UseStateReturn<T>;
 
-export function useState<const T>(
+export function useState<T>(
 	getDefaultValue: () => T,
 	discriminator?: unknown,
 ): UseStateReturn<T>;
 
-export function useState<const T>(
+export function useState<T>(
 	defaultValue: T | (() => T),
 	discriminator?: unknown,
 ) {
