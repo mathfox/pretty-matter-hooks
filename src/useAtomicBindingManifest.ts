@@ -31,6 +31,7 @@ export function useAtomicBindingManifest<
 >(
 	root: Root,
 	base: Base,
+	discriminator?: unknown,
 ):
 	| LuaTuple<[false, undefined]>
 	| LuaTuple<[true, ManifestInstances<Root, Depth, Base>]>;
@@ -41,6 +42,7 @@ export function useAtomicBindingManifest<
 >(
 	root: Root,
 	manifest: M,
+	discriminator?: unknown,
 ): LuaTuple<[false, undefined]> | LuaTuple<[true, InferManifestInstances<M>]>;
 
 /**
