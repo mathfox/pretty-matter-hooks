@@ -21,8 +21,8 @@ function cleanup(storage: Storage) {
 }
 
 export function useAtomicBindingManifest<
+	const Root extends Instance,
 	const Depth extends number = DEFAULT_DEPTH,
-	const Root extends Instance = Instance,
 	const Base extends {
 		readonly [Key in string]: Paths<Root, Depth>;
 	} = {
@@ -37,8 +37,8 @@ export function useAtomicBindingManifest<
 	| LuaTuple<[true, ManifestInstances<Root, Depth, Base>]>;
 
 export function useAtomicBindingManifest<
-	const Root extends Instance = Instance,
-	const M extends Manifest<Root> = Manifest<Root>,
+	const Root extends Instance,
+	const M extends Manifest<Root>,
 >(
 	root: Root,
 	manifest: M,
