@@ -7,7 +7,7 @@ export function useAtom<T>(molecule: Molecule<T>, discriminator?: unknown) {
 
 	useDestructor(() => {
 		return subscribe(molecule, (newState) => {
-			setState(() => newState);
+			setState(newState);
 		});
 	}, discriminator);
 
