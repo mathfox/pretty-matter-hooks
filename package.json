@@ -31,7 +31,7 @@
 		"@rbxts/amulet": "0.2.0",
 		"@rbxts/atomic-binding": "0.6.0",
 		"@rbxts/compiler-types": "^2.3.0-types.1",
-		"@rbxts/light-promise": "0.2.0",
+		"@rbxts/light-promise": "0.3.0",
 		"@rbxts/matter": "^0.8.3",
 		"@rbxts/phantom": "^0.0.5",
 		"@rbxts/services": "^1.5.4",
