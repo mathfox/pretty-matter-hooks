@@ -1,6 +1,6 @@
 {
 	"name": "@rbxts/pretty-matter-hooks",
-	"version": "0.7.2",
+	"version": "0.7.3",
 	"description": "A set of hooks to be used in pair with Matter ECS.",
 	"main": "out/init.lua",
 	"types": "out/index.d.ts",
@@ -31,7 +31,7 @@
 		"@rbxts/amulet": "0.2.0",
 		"@rbxts/atomic-binding": "0.6.0",
 		"@rbxts/compiler-types": "^2.3.0-types.1",
-		"@rbxts/light-promise": "0.0.3",
+		"@rbxts/light-promise": "0.1.0",
 		"@rbxts/matter": "^0.8.3",
 		"@rbxts/phantom": "^0.0.5",
 		"@rbxts/services": "^1.5.4",
