@@ -17,50 +17,23 @@ function cleanup(storage: Storage) {
 }
 
 /**
- * Do not pass a discriminator of the `table` type. This will cause the underlying code flow to interpret this as `dependencies` without the discriminator being passed as 3rd argument.
- */
-export function useDestructor(
-	callback: DtorCallback,
-	discriminator?: unknown,
-): void;
-
-/**
  * Whenever the `dependencies` change the destructor is called.
  */
 export function useDestructor(
 	callback: DtorCallback,
 	dependencies: ReadonlyArray<unknown>,
 	discriminator?: unknown,
-): void;
+): void {
+	const storage = useHookState(
+		discriminator,
+		cleanup,
+	) as StorageWithDependencies;
 
-export function useDestructor(
-	callback: DtorCallback,
-	dependenciesOrDiscriminator?: unknown,
-	discriminator?: unknown,
-) {
-	if (typeIs(dependenciesOrDiscriminator, "table")) {
-		const storage = useHookState(
-			discriminator,
-			cleanup,
-		) as StorageWithDependencies;
+	if (!storage.dtor || !equals(dependencies, storage.dependencies)) {
+		cleanup(storage);
 
-		const dependencies = dependenciesOrDiscriminator;
+		storage.dtor = callback();
 
-		if (!storage.dtor || !equals(dependencies, storage.dependencies)) {
-			cleanup(storage);
-
-			storage.dtor = callback();
-
-			storage.dependencies = dependencies;
-		}
-	} else {
-		const storage = useHookState(
-			dependenciesOrDiscriminator,
-			cleanup,
-		) as Storage;
-
-		if (!storage.dtor) {
-			storage.dtor = callback();
-		}
+		storage.dependencies = dependencies;
 	}
 }
