@@ -1,8 +1,8 @@
 import { useHookState } from "@rbxts/matter";
-import { equals } from "@rbxts/phantom/src/Array";
+import { PhantomArray } from "@rbxts/phantom/src/Array";
 
 type Storage = {
-	dependencies: ReadonlyArray<unknown>;
+	dependencies?: ReadonlyArray<unknown>;
 };
 
 export function useChange(
@@ -14,5 +14,5 @@ export function useChange(
 	const previous = storage.dependencies;
 	storage.dependencies = dependencies;
 
-	return !equals(dependencies, previous);
+	return !PhantomArray.equals(dependencies, previous);
 }

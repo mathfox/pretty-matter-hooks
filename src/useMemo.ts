@@ -1,5 +1,5 @@
 import { useHookState } from "@rbxts/matter";
-import { equals } from "@rbxts/phantom/src/Array";
+import { PhantomArray } from "@rbxts/phantom/src/Array";
 
 type Storage<T> = {
 	dependencies?: ReadonlyArray<unknown>;
@@ -27,7 +27,7 @@ export function useMemo(
 
 	if (
 		storage.value === undefined ||
-		!equals(dependencies, storage.dependencies)
+		!PhantomArray.equals(dependencies, storage.dependencies)
 	) {
 		storage.dependencies = dependencies;
 		storage.value = [callback()];

@@ -1,5 +1,5 @@
 import { useHookState } from "@rbxts/matter";
-import { equals } from "@rbxts/phantom/src/Array";
+import { PhantomArray } from "@rbxts/phantom/src/Array";
 
 type Dtor = Callback;
 type DtorCallback = () => Dtor | undefined;
@@ -29,7 +29,10 @@ export function useDestructor(
 		cleanup,
 	) as StorageWithDependencies;
 
-	if (!storage.dtor || !equals(dependencies, storage.dependencies)) {
+	if (
+		!storage.dtor ||
+		!PhantomArray.equals(dependencies, storage.dependencies)
+	) {
 		cleanup(storage);
 
 		storage.dtor = callback();

@@ -1,10 +1,12 @@
 import { useHookState } from "@rbxts/matter";
-import { useChange } from "./useChange";
 
-type Storage<T> = {
+interface InitializedStorage<T> {
+	isInitialValueSet: true;
 	value: T;
 	setValue: (newValue: T) => void;
-};
+}
+
+interface Storage<T> extends Partial<InitializedStorage<T>> {}
 
 export type UseStateReturn<T> = LuaTuple<
 	[value: T, setValue: (newValue: T) => void]
@@ -26,10 +28,13 @@ export function useState<T>(
 ) {
 	const storage = useHookState(discriminator) as Storage<T>;
 
-	if (useChange([discriminator])) {
+	if (!storage.isInitialValueSet) {
+		storage.isInitialValueSet = true;
+
 		storage.value = typeIs(defaultValue, "function")
 			? defaultValue()
 			: defaultValue;
+
 		storage.setValue = (newValue) => {
 			storage.value = newValue;
 		};

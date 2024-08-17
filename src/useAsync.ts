@@ -3,7 +3,7 @@ import {
 	type LightPromiseConstructor,
 } from "@rbxts/light-promise";
 import { useHookState } from "@rbxts/matter";
-import { equals } from "@rbxts/phantom/src/Array";
+import { PhantomArray } from "@rbxts/phantom/src/Array";
 
 type Storage<T> = {
 	dependencies: ReadonlyArray<unknown>;
@@ -52,7 +52,7 @@ export function useAsync(
 ) {
 	const storage = useHookState(discriminator, cleanup) as Storage<unknown>;
 
-	if (!equals(dependencies, storage.dependencies)) {
+	if (!PhantomArray.equals(dependencies, storage.dependencies)) {
 		cleanup(storage);
 
 		storage.dependencies = dependencies;
