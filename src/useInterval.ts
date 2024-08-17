@@ -6,16 +6,18 @@ export function useInterval(seconds: number, discriminator?: unknown): boolean {
 		expiry?: number;
 	};
 
+	const now = os.clock();
+
 	if (storage.time === undefined) {
-		storage.time = os.clock();
-		storage.expiry = os.clock() + seconds;
+		storage.time = now;
+		storage.expiry = now + seconds;
 	}
 
 	assert(storage.expiry !== undefined);
 
-	if (storage.time >= storage.expiry) {
-		storage.time = os.clock();
-		storage.expiry = os.clock() + seconds;
+	if (now >= storage.expiry) {
+		storage.time = now;
+		storage.expiry = now + seconds;
 
 		return true;
 	}
