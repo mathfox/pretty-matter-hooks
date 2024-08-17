@@ -1,6 +1,4 @@
 import {
-	createAtomicBinding,
-	isManifest,
 	type AtomicBinding,
 	type BoundFunction,
 	type DEFAULT_DEPTH,
@@ -8,6 +6,8 @@ import {
 	type Manifest,
 	type ManifestInstances,
 	type Paths,
+	createAtomicBinding,
+	isManifest,
 } from "@rbxts/atomic-binding";
 import { useHookState } from "@rbxts/matter";
 

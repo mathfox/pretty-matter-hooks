@@ -26,7 +26,7 @@ export function useState<T>(
 ) {
 	const storage = useHookState(discriminator) as Storage<T>;
 
-	if (useChange([storage])) {
+	if (useChange([discriminator])) {
 		storage.value = typeIs(defaultValue, "function")
 			? defaultValue()
 			: defaultValue;
