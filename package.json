@@ -29,13 +29,13 @@
 	},
 	"dependencies": {
 		"@rbxts/amulet": "0.2.0",
-		"@rbxts/atomic-binding": "0.6.0",
-		"@rbxts/compiler-types": "^2.3.0-types.1",
+		"@rbxts/atomic-binding": "0.7.0",
+		"@rbxts/compiler-types": "2.3.0-types.2",
 		"@rbxts/light-promise": "0.3.1",
-		"@rbxts/matter": "^0.8.3",
-		"@rbxts/phantom": "^0.0.5",
+		"@rbxts/matter": "0.8.5",
+		"@rbxts/phantom": "0.1.0",
 		"@rbxts/services": "^1.5.4",
-		"@rbxts/types": "^1.0.795"
+		"@rbxts/types": "^1.0.799"
 	},
 	"devDependencies": {
 		"roblox-ts": "^2.3.0-dev-576ad98",
