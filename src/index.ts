@@ -4,6 +4,7 @@ export * from "./useAtomicBindingManifest";
 export * from "./useChange";
 export * from "./useContextAction";
 export * from "./useDestructor";
+export * from "./useInterval";
 export * from "./useLastInputType";
 export * from "./useLocalPlayerGui";
 export * from "./useMap";
