@@ -11,7 +11,10 @@
 		"target": "ESNext",
 		"typeRoots": ["node_modules/@rbxts"],
 		"rootDir": "src",
+		"rootDirs": ["src", "examples"],
 		"outDir": "out",
+		"baseUrl": "./src",
 		"declaration": true
-	}
+	},
+	"include": ["src"]
 }
