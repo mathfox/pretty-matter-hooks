@@ -1,9 +1,9 @@
 import { useHookState } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 
-type Storage = {
+interface Storage {
 	gui?: PlayerGui | undefined;
-};
+}
 
 export function useLocalPlayerGui(
 	discriminator?: unknown,
