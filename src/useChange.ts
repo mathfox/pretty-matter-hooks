@@ -1,9 +1,9 @@
 import { useHookState } from "@rbxts/matter";
 import { PhantomArray } from "@rbxts/phantom/src/Array";
 
-type Storage = {
+interface Storage {
 	dependencies?: ReadonlyArray<unknown>;
-};
+}
 
 export function useChange(
 	dependencies: ReadonlyArray<unknown>,
