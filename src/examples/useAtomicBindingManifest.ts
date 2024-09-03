@@ -1,4 +1,4 @@
-import { useAtomicBindingManifest } from "../src";
+import { useAtomicBindingManifest } from "..";
 
 interface CustomWorkspace extends Instance {
 	someModel: Model & {

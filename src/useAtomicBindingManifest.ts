@@ -2,7 +2,6 @@ import {
 	type AtomicBinding,
 	type BoundFunction,
 	type DEFAULT_DEPTH,
-	type InferManifestInstances,
 	type Manifest,
 	type ManifestInstances,
 	type Paths,
@@ -32,13 +31,13 @@ export function useAtomicBindingManifest<
 	root: Root,
 	base: Base,
 	discriminator?: unknown,
-): LuaTuple<[false, undefined]> | LuaTuple<[true, ManifestInstances<Root, Depth, Base>]>;
-
-export function useAtomicBindingManifest<const Root extends Instance, const M extends Manifest<Root>>(
-	root: Root,
-	manifest: M,
-	discriminator?: unknown,
-): LuaTuple<[false, undefined]> | LuaTuple<[true, InferManifestInstances<M>]>;
+): LuaTuple<[false, undefined]> | LuaTuple<[true, ManifestInstances<Root, Base>]>;
+//
+//export function useAtomicBindingManifest<const Root extends Instance, const M extends Manifest<Root>>(
+//	root: Root,
+//	manifest: M,
+//	discriminator?: unknown,
+//): LuaTuple<[false, undefined]> | LuaTuple<[true, InferManifestInstances<M>]>;
 
 /**
  * The `binding` argument should be memoized in order to work correctly.
@@ -58,7 +57,8 @@ export function useAtomicBindingManifest(root: Instance, value: unknown, discrim
 		};
 
 		if (isManifest(value)) {
-			binding = createAtomicBinding(value, boundFn);
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			binding = createAtomicBinding(value as any, boundFn);
 		} else {
 			binding = createAtomicBinding()(value as Record<string, never>, boundFn);
 		}

@@ -1,39 +1,24 @@
 import { useHookState } from "@rbxts/matter";
 
-interface InitializedStorage<T> {
-	isInitialValueSet: true;
+interface Storage<T> {
+	isInitialValueSet: boolean;
 	value: T;
 	setValue: (newValue: T) => void;
 }
 
-interface Storage<T> extends Partial<InitializedStorage<T>> {}
+export type UseStateReturn<T> = LuaTuple<[value: T, setValue: (newValue: T) => void]>;
 
-export type UseStateReturn<T> = LuaTuple<
-	[value: T, setValue: (newValue: T) => void]
->;
+export function useState<T>(getDefaultValue: () => T, discriminator?: unknown): UseStateReturn<T>;
 
-export function useState<T>(
-	getDefaultValue: () => T,
-	discriminator?: unknown,
-): UseStateReturn<T>;
+export function useState<T>(defaultValue: T, discriminator?: unknown): UseStateReturn<T>;
 
-export function useState<T>(
-	defaultValue: T,
-	discriminator?: unknown,
-): UseStateReturn<T>;
-
-export function useState<T>(
-	defaultValue: T | (() => T),
-	discriminator?: unknown,
-) {
+export function useState<T>(value: T | (() => T), discriminator?: unknown) {
 	const storage = useHookState(discriminator) as Storage<T>;
 
 	if (!storage.isInitialValueSet) {
 		storage.isInitialValueSet = true;
 
-		storage.value = typeIs(defaultValue, "function")
-			? defaultValue()
-			: defaultValue;
+		storage.value = typeIs(value, "function") ? value() : value;
 
 		storage.setValue = (newValue) => {
 			storage.value = newValue;
