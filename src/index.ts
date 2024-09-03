@@ -1,7 +1,6 @@
 export * from "./useAsync";
 export * from "./useAtom";
 export * from "./useAtomicBindingInstance";
-export * from "./useAtomicBindingManifest";
 export * from "./useChange";
 export * from "./useContextAction";
 export * from "./useDestructor";

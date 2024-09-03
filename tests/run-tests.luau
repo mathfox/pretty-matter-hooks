@@ -18,7 +18,7 @@ end)
 local status, result = runCLI(ReplicatedStorage, {
 	verbose = false,
 	ci = false,
-}, { ReplicatedStorage.MatterSync["jest.config"] }):awaitStatus()
+}, { ReplicatedStorage["pretty-matter-hooks"]["jest.config"] }):awaitStatus()
 
 task.wait(1)
 

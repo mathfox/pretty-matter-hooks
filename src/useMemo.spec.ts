@@ -4,25 +4,33 @@ import { useMemo } from "useMemo";
 
 it("should memoize the value", () => {
 	const node = {
-		system: {},
+		// biome-ignore lint/suspicious/noExplicitAny: tests
+		system: {} as any,
 	};
 
 	let memoizedValue: object | undefined = undefined;
+	let actualValue: object | undefined = undefined;
 
 	const fn = () => {
 		const value = useMemo(() => {
 			return {};
 		}, []);
 
-		memoizedValue = value;
+		if (memoizedValue === undefined) {
+			memoizedValue = value;
+		}
+
+		actualValue = value;
 	};
 
 	expect(memoizedValue).toBeUndefined();
+	expect(actualValue).toBeUndefined();
 
-	// biome-ignore lint/suspicious/noExplicitAny: tests
-	start(node as any, fn);
+	for (const _ of $range(1, 10)) {
+		start(node, fn);
 
-	expect(memoizedValue).toStrictEqual({});
+		expect(actualValue).toStrictEqual(memoizedValue);
+	}
 });
 
 it("should support discriminators", () => {
