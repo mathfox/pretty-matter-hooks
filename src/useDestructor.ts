@@ -24,15 +24,9 @@ export function useDestructor(
 	dependencies: ReadonlyArray<unknown>,
 	discriminator?: unknown,
 ): void {
-	const storage = useHookState(
-		discriminator,
-		cleanup,
-	) as StorageWithDependencies;
+	const storage = useHookState(discriminator, cleanup) as StorageWithDependencies;
 
-	if (
-		!storage.dtor ||
-		!PhantomArray.equals(dependencies, storage.dependencies)
-	) {
+	if (!storage.dtor || !PhantomArray.equals(dependencies, storage.dependencies)) {
 		cleanup(storage);
 
 		storage.dtor = callback();

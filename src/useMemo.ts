@@ -6,11 +6,7 @@ type Storage<T> = {
 	value?: [T];
 };
 
-export function useMemo<const T>(
-	callback: () => T,
-	dependencies: ReadonlyArray<unknown>,
-	discriminator?: unknown,
-): T;
+export function useMemo<const T>(callback: () => T, dependencies: ReadonlyArray<unknown>, discriminator?: unknown): T;
 
 export function useMemo<const T extends Array<unknown>>(
 	callback: () => LuaTuple<T>,
@@ -18,17 +14,10 @@ export function useMemo<const T extends Array<unknown>>(
 	discriminator?: unknown,
 ): LuaTuple<T>;
 
-export function useMemo(
-	callback: Callback,
-	dependencies: ReadonlyArray<unknown>,
-	discriminator?: unknown,
-) {
+export function useMemo(callback: Callback, dependencies: ReadonlyArray<unknown>, discriminator?: unknown) {
 	const storage = useHookState(discriminator) as Storage<unknown>;
 
-	if (
-		storage.value === undefined ||
-		!PhantomArray.equals(dependencies, storage.dependencies)
-	) {
+	if (storage.value === undefined || !PhantomArray.equals(dependencies, storage.dependencies)) {
 		storage.dependencies = dependencies;
 		storage.value = [callback()];
 	}

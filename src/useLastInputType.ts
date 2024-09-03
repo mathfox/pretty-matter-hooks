@@ -10,10 +10,7 @@ export function useLastInputType(discriminator?: unknown): Enum.UserInputType {
 
 	storage.inputType ??= UserInputService.GetLastInputType();
 
-	for (const [_, inputType] of useEvent(
-		UserInputService,
-		"LastInputTypeChanged",
-	)) {
+	for (const [_, inputType] of useEvent(UserInputService, "LastInputTypeChanged")) {
 		storage.inputType = inputType;
 	}
 

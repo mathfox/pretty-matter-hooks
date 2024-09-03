@@ -32,14 +32,9 @@ export function useAtomicBindingManifest<
 	root: Root,
 	base: Base,
 	discriminator?: unknown,
-):
-	| LuaTuple<[false, undefined]>
-	| LuaTuple<[true, ManifestInstances<Root, Depth, Base>]>;
+): LuaTuple<[false, undefined]> | LuaTuple<[true, ManifestInstances<Root, Depth, Base>]>;
 
-export function useAtomicBindingManifest<
-	const Root extends Instance,
-	const M extends Manifest<Root>,
->(
+export function useAtomicBindingManifest<const Root extends Instance, const M extends Manifest<Root>>(
 	root: Root,
 	manifest: M,
 	discriminator?: unknown,
@@ -48,11 +43,7 @@ export function useAtomicBindingManifest<
 /**
  * The `binding` argument should be memoized in order to work correctly.
  */
-export function useAtomicBindingManifest(
-	root: Instance,
-	value: unknown,
-	discriminator?: unknown,
-) {
+export function useAtomicBindingManifest(root: Instance, value: unknown, discriminator?: unknown) {
 	const storage = useHookState(discriminator, cleanup);
 
 	if (!storage.cleanup) {

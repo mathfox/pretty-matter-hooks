@@ -1,15 +1,20 @@
 import { useHookState } from "@rbxts/matter";
 
-type Storage<T> = {
+interface Storage<T> {
 	value?: {
 		value: T;
 	};
-};
+}
 
 /**
  * The `key` argument serves as discriminator for `useHookState`.
  */
-export function useMap<T>(key: unknown, defaultValue: T) {
+export function useMap<T>(
+	key: unknown,
+	defaultValue: T,
+): {
+	value: T;
+} {
 	const storage = useHookState(key) as Storage<T>;
 
 	storage.value ??= {
