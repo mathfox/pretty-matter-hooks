@@ -4,7 +4,7 @@
 	"description": "A set of hooks to be used in pair with Matter ECS.",
 	"main": "out/init.lua",
 	"types": "out/index.d.ts",
-	"files": ["out"],
+	"files": ["out", "!out/examples", "!out/jest.config.*"],
 	"scripts": {
 		"check": "bunx @biomejs/biome check --write",
 		"prepublishOnly": "bun run check && bun run build",
