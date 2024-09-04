@@ -1,12 +1,12 @@
 import { type TryIndex, createAtomicBinding } from "@rbxts/atomic-binding";
 import { useHookState } from "@rbxts/matter";
 
-type Storage = {
+interface Storage {
 	cleanup?: Callback;
 	instance?: Instance | undefined;
-};
+}
 
-function cleanup(storage: Storage) {
+function cleanup(storage: Storage): void {
 	storage.cleanup?.();
 }
 
@@ -14,10 +14,11 @@ function cleanup(storage: Storage) {
  * Basically the same as using `getInstanceFromPath` function every render,
  * except it utilizes the `AtomicBinding` struct underneath the same behavior.
  */
-export function useAtomicBindingInstance<
-	const Root extends Instance = Instance,
-	const Path extends string = string,
->(root: Root, path: Path, discriminator?: unknown): TryIndex<Root, Path> {
+export function useAtomicBindingInstance<const Root extends Instance = Instance, const Path extends string = string>(
+	root: Root,
+	path: Path,
+	discriminator?: unknown,
+): TryIndex<Root, Path> {
 	const storage = useHookState(discriminator, cleanup);
 
 	if (!storage.cleanup) {
