@@ -4,7 +4,7 @@
 	"description": "A set of hooks to be used in pair with Matter ECS.",
 	"main": "out/init.luau",
 	"types": "out/index.d.ts",
-	"files": ["out", "!out/examples", "!out/jest.config.ts", "!out/**/*.test.ts"],
+	"files": ["out", "!out/examples", "!out/jest.config.*", "!out/**/*.test.ts"],
 	"scripts": {
 		"check": "bunx @biomejs/biome check --write",
 		"prepublishOnly": "bun run check "
@@ -27,11 +27,11 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@rbxts/amulet": "0.3.0",
-		"@rbxts/atomic-binding": "0.8.1",
-		"@rbxts/matter": "0.8.5",
+		"@rbxts/amulet": "^0.3.0",
+		"@rbxts/atomic-binding": "^0.8.1",
+		"@rbxts/matter": "^0.8.5",
 		"@rbxts/phantom": "^0.2.0",
-		"@rbxts/services": "1.5.5"
+		"@rbxts/services": "^1.5.5"
 	},
 	"devDependencies": {
 		"@rbxts/compiler-types": "^3.0.0-types.0",
