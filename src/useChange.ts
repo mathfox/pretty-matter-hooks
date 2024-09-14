@@ -1,5 +1,5 @@
 import { useHookState } from "@rbxts/matter";
-import { PhantomArray } from "@rbxts/phantom/src/Array";
+import { deepEquals } from "@rbxts/phantom/src/Array";
 
 interface Storage {
 	dependencies?: ReadonlyArray<unknown>;
@@ -11,5 +11,5 @@ export function useChange(dependencies: ReadonlyArray<unknown>, discriminator?: 
 	const previous = storage.dependencies;
 	storage.dependencies = dependencies;
 
-	return !PhantomArray.equals(dependencies, previous);
+	return !deepEquals(dependencies, previous);
 }

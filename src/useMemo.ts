@@ -1,9 +1,9 @@
 import { useHookState } from "@rbxts/matter";
-import { PhantomArray } from "@rbxts/phantom/src/Array";
+import { deepEquals } from "@rbxts/phantom/src/Array";
 
-interface Storage<T> {
+interface Storage<TValue> {
 	dependencies?: ReadonlyArray<unknown>;
-	value?: [T];
+	value?: [TValue];
 }
 
 export function useMemo<TValue>(
@@ -21,7 +21,7 @@ export function useMemo<TValues extends Array<unknown>>(
 export function useMemo(callback: Callback, dependencies: ReadonlyArray<unknown>, discriminator?: unknown) {
 	const storage = useHookState(discriminator) as Storage<unknown>;
 
-	if (storage.value === undefined || !PhantomArray.equals(dependencies, storage.dependencies)) {
+	if (storage.value === undefined || !deepEquals(dependencies, storage.dependencies)) {
 		storage.dependencies = dependencies;
 		storage.value = [callback()];
 	}

@@ -1,18 +1,15 @@
 import { useHookState } from "@rbxts/matter";
-import { PhantomArray } from "@rbxts/phantom/src/Array";
+import { deepEquals } from "@rbxts/phantom/src/Array";
 
 type Dtor = Callback;
 type DtorCallback = () => Dtor | undefined;
 
-type Storage = {
+interface Storage {
 	dtor?: Dtor;
-};
+	dependencies?: ReadonlyArray<unknown>;
+}
 
-type StorageWithDependencies = Storage & {
-	dependencies?: object;
-};
-
-function cleanup(storage: Storage) {
+function cleanup(storage: Storage): void {
 	storage.dtor?.();
 }
 
@@ -24,13 +21,13 @@ export function useDestructor(
 	dependencies: ReadonlyArray<unknown>,
 	discriminator?: unknown,
 ): void {
-	const storage = useHookState(discriminator, cleanup) as StorageWithDependencies;
+	const storage = useHookState(discriminator, cleanup) as Storage;
 
-	if (!storage.dtor || !PhantomArray.equals(dependencies, storage.dependencies)) {
+	if (!storage.dtor || !deepEquals(dependencies, storage.dependencies)) {
 		cleanup(storage);
 
-		storage.dtor = callback();
-
 		storage.dependencies = dependencies;
+
+		storage.dtor = callback();
 	}
 }

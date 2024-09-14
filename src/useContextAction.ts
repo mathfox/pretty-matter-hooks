@@ -15,14 +15,14 @@ export interface ContextActionOptions {
 	actionName?: string;
 }
 
-type Storage = {
+interface Storage {
 	value?: {
 		callback: ContextActionCallback;
 		actionName: string;
 	};
-};
+}
 
-function cleanup(storage: Storage) {
+function cleanup(storage: Storage): void {
 	if (!storage.value) return;
 
 	ContextActionService.UnbindAction(storage.value.actionName);
