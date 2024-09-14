@@ -1,7 +1,4 @@
-import {
-	LightPromise,
-	type LightPromiseConstructor,
-} from "@rbxts/light-promise";
+import { LightPromise, type LightPromiseConstructor } from "@rbxts/light-promise";
 import { useHookState } from "@rbxts/matter";
 import { PhantomArray } from "@rbxts/phantom/src/Array";
 

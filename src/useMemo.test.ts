@@ -29,7 +29,7 @@ it("should memoize the value", () => {
 	for (const _ of $range(1, 10)) {
 		start(node, fn);
 
-		expect(actualValue).toStrictEqual(memoizedValue);
+		expect(actualValue).toBe(memoizedValue);
 	}
 });
 
