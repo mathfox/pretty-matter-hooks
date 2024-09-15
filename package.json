@@ -1,13 +1,14 @@
 {
 	"name": "@rbxts/pretty-matter-hooks",
-	"version": "0.9.1",
+	"version": "0.10.0",
 	"description": "A set of hooks to be used in pair with Matter ECS.",
 	"main": "out/init.luau",
 	"types": "out/index.d.ts",
 	"files": ["out", "!out/examples", "!out/jest.config.*", "!out/**/*.test.ts"],
 	"scripts": {
+		"build": "rbxtsc --type package",
 		"check": "bunx @biomejs/biome check --write",
-		"prepublishOnly": "bun run check "
+		"prepublishOnly": "bun run check && bun run build"
 	},
 	"keywords": ["roblox", "roblox-ts", "matter", "matter-hooks", "hooks"],
 	"repository": {
