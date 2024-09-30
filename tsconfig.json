@@ -14,7 +14,7 @@
         ],
         "rootDir": "src",
         "outDir": "out",
-        "baseUrl": "./src",
+        "baseUrl": "src",
         "declaration": true
     },
     "include": [
