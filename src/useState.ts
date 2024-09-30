@@ -1,7 +1,6 @@
 import { useHookState } from "@rbxts/matter";
 
 interface Storage<TValue> {
-	isInitialValueSet: boolean;
 	value: TValue;
 	setValue: (newValue: TValue) => void;
 }
@@ -15,9 +14,7 @@ export function useState<TValue>(defaultValue: TValue, discriminator?: unknown):
 export function useState<TValue>(value: TValue | (() => TValue), discriminator?: unknown) {
 	const storage = useHookState(discriminator) as Storage<TValue>;
 
-	if (!storage.isInitialValueSet) {
-		storage.isInitialValueSet = true;
-
+	if (!storage.setValue) {
 		storage.value = typeIs(value, "function") ? value() : value;
 
 		storage.setValue = (newValue) => {
