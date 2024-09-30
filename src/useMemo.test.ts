@@ -4,8 +4,7 @@ import { useMemo } from "useMemo";
 
 it("should memoize the value", () => {
 	const node = {
-		// biome-ignore lint/suspicious/noExplicitAny: tests
-		system: {} as any,
+		system: () => {},
 	};
 
 	let memoizedValue: object | undefined = undefined;
