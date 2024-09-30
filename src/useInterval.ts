@@ -17,9 +17,7 @@ export function useInterval(seconds: number, discriminator?: unknown): boolean {
 		return false;
 	}
 
-	assert(storage.expiry !== undefined);
-
-	if (now >= storage.expiry) {
+	if (now >= storage.expiry!) {
 		storage.time = now;
 		storage.expiry = now + seconds;
 
