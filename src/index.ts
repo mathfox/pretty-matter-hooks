@@ -2,6 +2,7 @@ export * from "./useAsync";
 export * from "./useChange";
 export * from "./useContextAction";
 export * from "./useDestructor";
+export * from "./useInstance";
 export * from "./useInterval";
 export * from "./useLastInputType";
 export * from "./useLocalPlayerGui";
