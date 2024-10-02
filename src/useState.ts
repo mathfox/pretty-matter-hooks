@@ -1,6 +1,6 @@
 import { useHookState } from "@rbxts/matter";
 
-type SetValue<TValue> = (newValue: TValue) => void | ((mutator: (currentValue: TValue) => TValue) => void);
+type SetValue<TValue> = (newValue: TValue | ((currentValue: TValue) => TValue)) => void;
 
 interface Storage<TValue> {
 	value: TValue;
