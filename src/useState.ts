@@ -2,7 +2,7 @@ import { useHookState } from "@rbxts/matter";
 
 interface Storage<TValue> {
 	value: TValue;
-	setValue: (newValue: TValue) => void;
+	setValue: (newValue: TValue) => void | ((mutator: (currentValue: TValue) => TValue) => void);
 }
 
 export type UseStateReturn<TValue> = LuaTuple<[value: TValue, setValue: (newValue: TValue) => void]>;
