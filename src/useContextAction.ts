@@ -7,7 +7,7 @@ export type ContextActionCallback = (
 	inputState: Enum.UserInputState,
 	inputObject: InputObject,
 	actionName: string,
-) => Enum.ContextActionResult | undefined;
+) => Enum.ContextActionResult | undefined | void;
 
 export interface ContextActionOptions {
 	inputTypes: Array<ContextActionInput>;
