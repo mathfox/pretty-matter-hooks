@@ -1,5 +1,5 @@
 import { useHookState } from "@rbxts/matter";
-import { deepEquals } from "@rbxts/phantom/src/Array";
+import deepEquals from "@rbxts/phantom/src/Array/deepEquals";
 
 interface Storage<TValue> {
 	dependencies: ReadonlyArray<unknown>;
