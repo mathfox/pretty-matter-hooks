@@ -5,8 +5,8 @@ interface Storage {
 	gui?: PlayerGui | undefined;
 }
 
-export function useLocalPlayerGui(discriminator?: unknown): PlayerGui | undefined {
-	const storage = useHookState(discriminator) as Storage;
+export function useLocalPlayerGui(): PlayerGui | undefined {
+	const storage = useHookState() as Storage;
 
 	storage.gui ??= Players.LocalPlayer.FindFirstChildOfClass("PlayerGui");
 
