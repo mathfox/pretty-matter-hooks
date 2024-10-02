@@ -18,7 +18,7 @@ export function useState<TValue>(value: TValue | (() => TValue), discriminator?:
 		storage.value = typeIs(value, "function") ? value() : value;
 
 		storage.setValue = (newValue) => {
-			storage.value = newValue;
+			storage.value = typeIs(newValue, "function") ? newValue(storage.value) : newValue;
 		};
 	}
 
